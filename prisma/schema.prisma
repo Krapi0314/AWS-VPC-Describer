@@ -20,7 +20,6 @@ model Vpc {
   VpcId String @id @db.VarChar(50)
   OwnerId String @db.VarChar(50)
   InstanceTenancy String @db.VarChar(50)
-  Subnets Subnet[]
   CidrBlockAssociationSet CidrBlockAssociation[]
   IsDefault Boolean
   Tags Json?
@@ -45,7 +44,6 @@ model Subnet {
   EnableDns64 Boolean
   Ipv6Native Boolean
   PrivateDnsNameOptionsOnLaunch Json?
-  vpc Vpc @relation(fields: [VpcId], references: [VpcId])
 }
 
 model CidrBlockAssociation {
