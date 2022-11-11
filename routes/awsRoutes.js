@@ -4,11 +4,18 @@ import { describeSubnets } from "../controller/SubnetController.js";
 import { describeVpcs } from "../controller/VpcController.js";
 
 const router = express.Router();
+/**
+ *  @swagger
+ *  tags:
+ *    name: AWS API
+ *    description: API to fetch AWS VPC resources directly from AWS
+ */
 
 /**
  * @openapi
  * /api/v1/aws/regions:
  *   get:
+ *     tags: [AWS API]
  *     description: API for describing all AWS regions
  *     responses:
  *       200:
@@ -22,6 +29,7 @@ router.get("/regions", describeRegions);
  * @openapi
  * /api/v1/aws/vpcs:
  *   get:
+ *     tags: [AWS API]
  *     description: API for describing all AWS vpcs in specific region
  *     parameters:
  *              - in: query
@@ -40,6 +48,7 @@ router.get("/vpcs", describeVpcs);
  * @openapi
  * /api/v1/aws/subnets:
  *   get:
+ *     tags: [AWS API]
  *     description: API for describing all AWS subnets in specific region
  *     parameters:
  *              - in: query

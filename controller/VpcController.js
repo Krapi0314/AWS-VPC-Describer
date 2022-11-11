@@ -1,4 +1,8 @@
 import { EC2Client, DescribeVpcsCommand } from "@aws-sdk/client-ec2";
+import {
+  saveVpcResourceDataInDB,
+  getVpcResourceDataFromDB,
+} from "../service/vpcResourceService.js";
 
 const defaultRegion = process.env.AWS_REGION;
 
@@ -11,8 +15,19 @@ export const describeVpcs = async (req, res) => {
 
   try {
     const data = await client.send(command);
+    saveVpcResourceDataInDB(data);
 
     res.status(200).json({ data });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+export const describeVpcsFromDB = async (req, res) => {
+  try {
+    const data = await getVpcResourceDataFromDB();
+
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ error });
   }

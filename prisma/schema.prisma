@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Region {
+  Endpoint String @db.VarChar(50)
+  RegionName String @id @db.VarChar(50)
+  OptInStatus String @db.VarChar(50)
+}
+
+model Vpc {
+  CidrBlock String @db.VarChar(50)
+  DhcpOptionsId String @db.VarChar(50)
+  State String @db.VarChar(50)
+  VpcId String @id @db.VarChar(50)
+  OwnerId String @db.VarChar(50)
+  InstanceTenancy String @db.VarChar(50)
+  Subnets Subnet[]
+  CidrBlockAssociationSet CidrBlockAssociation[]
+  IsDefault Boolean
+  Tags Json?
+}
+
+model Subnet {
+  AvailabilityZone String @db.VarChar(50)
+  AvailabilityZoneId String @db.VarChar(50)
+  AvailableIpAddressCount Int
+  CidrBlock String @db.VarChar(50)
+  DefaultForAz Boolean
+  MapPublicIpOnLaunch Boolean
+  MapCustomerOwnedIpOnLaunch Boolean
+  State String @db.VarChar(50)
+  SubnetId String @id @db.VarChar(50)
+  VpcId String @db.VarChar(50)
+  OwnerId String @db.VarChar(50)
+  AssignIpv6AddressOnCreation Boolean
+  Ipv6CidrBlockAssociationSet Ipv6CidrBlockAssociation[]
+  Tags Json?
+  SubnetArn String @db.VarChar(100)
+  EnableDns64 Boolean
+  Ipv6Native Boolean
+  PrivateDnsNameOptionsOnLaunch Json?
+  vpc Vpc @relation(fields: [VpcId], references: [VpcId])
+}
+
+model CidrBlockAssociation {
+  AssociationId String @id @db.VarChar(50)
+  CidrBlock String @db.VarChar(50)
+  CidrBlockState Json?
+  vpcId String @db.VarChar(50)
+  vpc Vpc @relation(fields: [vpcId], references: [VpcId])
+}
+
+model Ipv6CidrBlockAssociation {
+  AssociationId String @id @db.VarChar(50)
+  Ipv6CidrBlock String @db.VarChar(50)
+  Ipv6CidrBlockState Json?
+  subnetId String @db.VarChar(50)
+  subnet Subnet @relation(fields: [subnetId], references: [SubnetId])
+}

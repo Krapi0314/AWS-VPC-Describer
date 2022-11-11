@@ -1,4 +1,8 @@
 import { EC2Client, DescribeSubnetsCommand } from "@aws-sdk/client-ec2";
+import {
+  saveSubnetResourceDataInDB,
+  getSubnetResourceDataFromDB,
+} from "../service/vpcResourceService.js";
 
 const defaultRegion = process.env.AWS_REGION;
 
@@ -11,8 +15,19 @@ export const describeSubnets = async (req, res) => {
 
   try {
     const data = await client.send(command);
+    saveSubnetResourceDataInDB(data);
 
     res.status(200).json({ data });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+export const describeSubnetsFromDB = async (req, res) => {
+  try {
+    const data = await getSubnetResourceDataFromDB();
+
+    res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ error });
   }
