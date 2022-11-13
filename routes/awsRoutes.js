@@ -73,12 +73,12 @@ router.get("/subnets", describeSubnets);
  *                     Endpoint:
  *                         type: string
  *                         description: The Region service endpoint.
- *                     OptInStatus:
- *                         type: string
- *                         description: The Region opt-in status. The possible values are opt-in-not-required, opted-in, and not-opted-in.
  *                     RegionName:
  *                         type: string
  *                         description: The name of the Region.
+ *                     OptInStatus:
+ *                         type: string
+ *                         description: The Region opt-in status. The possible values are opt-in-not-required, opted-in, and not-opted-in.
  *             Vpc:
  *                 type: object
  *                 properties:

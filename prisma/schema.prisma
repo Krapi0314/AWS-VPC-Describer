@@ -14,50 +14,69 @@ model Region {
 }
 
 model Vpc {
-  CidrBlock String @db.VarChar(50)
-  DhcpOptionsId String @db.VarChar(50)
-  State String @db.VarChar(50)
-  VpcId String @id @db.VarChar(50)
-  OwnerId String @db.VarChar(50)
-  InstanceTenancy String @db.VarChar(50)
-  CidrBlockAssociationSet CidrBlockAssociation[]
-  IsDefault Boolean
+  CidrBlock String? @db.VarChar(50)
+  CidrBlockAssociationSet VpcCidrBlockAssociation[]
+  DhcpOptionsId String? @db.VarChar(50)
+  InstanceTenancy String? @db.VarChar(50)
+  Ipv6CidrBlockAssociationSet VpcIpv6CidrBlockAssociation[]
+  IsDefault Boolean?
+  OwnerId String? @db.VarChar(50)
+  State String? @db.VarChar(50)
   Tags Json?
+  VpcId String @id @db.VarChar(50)
 }
 
 model Subnet {
-  AvailabilityZone String @db.VarChar(50)
-  AvailabilityZoneId String @db.VarChar(50)
-  AvailableIpAddressCount Int
-  CidrBlock String @db.VarChar(50)
-  DefaultForAz Boolean
-  MapPublicIpOnLaunch Boolean
-  MapCustomerOwnedIpOnLaunch Boolean
-  State String @db.VarChar(50)
+  AssignIpv6AddressOnCreation Boolean?
+  AvailabilityZone String? @db.VarChar(50)
+  AvailabilityZoneId String? @db.VarChar(50)
+  AvailableIpAddressCount Int?
+  CidrBlock String? @db.VarChar(50)
+  CustomerOwnedIpv4Pool String?
+  DefaultForAz Boolean?
+  EnableDns64 Boolean?
+  EnableLniAtDeviceIndex String? @db.VarChar(50)
+  Ipv6CidrBlockAssociationSet SubnetIpv6CidrBlockAssociation[]
+  Ipv6Native Boolean?
+  MapCustomerOwnedIpOnLaunch Boolean?
+  MapPublicIpOnLaunch Boolean?
+  OutpostArn String? @db.VarChar(50)
+  OwnerId String? @db.VarChar(50)
+  EnableResourceNameDnsAAAARecord Boolean?
+  EnableResourceNameDnsARecord Boolean?
+  HostnameType String? @db.VarChar(50)
+  State String? @db.VarChar(50)
+  SubnetArn String? @db.VarChar(100)
   SubnetId String @id @db.VarChar(50)
-  VpcId String @db.VarChar(50)
-  OwnerId String @db.VarChar(50)
-  AssignIpv6AddressOnCreation Boolean
-  Ipv6CidrBlockAssociationSet Ipv6CidrBlockAssociation[]
   Tags Json?
-  SubnetArn String @db.VarChar(100)
-  EnableDns64 Boolean
-  Ipv6Native Boolean
-  PrivateDnsNameOptionsOnLaunch Json?
+  VpcId String? @db.VarChar(50)
 }
 
-model CidrBlockAssociation {
+model VpcCidrBlockAssociation {
   AssociationId String @id @db.VarChar(50)
-  CidrBlock String @db.VarChar(50)
-  CidrBlockState Json?
+  CidrBlock String? @db.VarChar(50)
+  State String? @db.VarChar(50)
+  StatusMessage String? @db.VarChar(50)
   vpcId String @db.VarChar(50)
   vpc Vpc @relation(fields: [vpcId], references: [VpcId])
 }
 
-model Ipv6CidrBlockAssociation {
+model VpcIpv6CidrBlockAssociation {
   AssociationId String @id @db.VarChar(50)
-  Ipv6CidrBlock String @db.VarChar(50)
-  Ipv6CidrBlockState Json?
+  Ipv6CidrBlock String? @db.VarChar(50)
+  State String? @db.VarChar(50)
+  StatusMessage String? @db.VarChar(50)
+  Ipv6Pool String? @db.VarChar(50)
+  NetworkBorderGroup String? @db.VarChar(50)
+  vpcId String @db.VarChar(50)
+  vpc Vpc @relation(fields: [vpcId], references: [VpcId])
+} 
+
+model SubnetIpv6CidrBlockAssociation {
+  AssociationId String @id @db.VarChar(50)
+  Ipv6CidrBlock String? @db.VarChar(50)
+  State String? @db.VarChar(50)
+  StatusMessage String? @db.VarChar(50)
   subnetId String @db.VarChar(50)
   subnet Subnet @relation(fields: [subnetId], references: [SubnetId])
 }
